@@ -44,8 +44,8 @@ How could more computing help you do more or better research?
 
 Today, people coding or analysing data typically work with laptops.
  
-{% include figure.html url="" max-width="20%" file="fig/200px-laptop-openclipartorg-aoguerrero.svg"
- alt="A standard laptop" caption="" %}
+!["Are we dealing with supervised or 
+unsupervised learning?"](fig/200px-laptop-openclipartorg-aoguerrero.svg){alt="Flow Diagram for determining supvervised vs unsupervised"}.
 
 Let's dissect what resources programs running on a laptop require:
 - the keyboard and/or touchpad is used to tell the computer what to do (**Input**)
@@ -54,9 +54,9 @@ Let's dissect what resources programs running on a laptop require:
 
 Schematically, this can be reduced to the following:
 
-{% include figure.html max-width="30%" file="fig/Simple_Von_Neumann_Architecture.svg" 
-alt="Schematic of how a computer works" caption="" %}
 
+!["Are we dealing with supervised or unsupervised
+learning?"](fig/Simple_Von_Neumann_Architecture.svg){alt="Flow Diagram for determining supvervised vs unsupervised"}.
 
 ## When tasks take too long
 
@@ -85,9 +85,8 @@ machine, people typically call 'a server'.
 If the computational task or analysis to complete is daunting for a single server, larger 
 agglomerations of servers are used. These go by the name of clusters or super computers.
 
-{% include figure.html url="" max-width="20%" 
-file="fig/serverrack-openclipartorg-psteinb-basedon-ericlemerdy.svg" alt="A rack with servers"
-caption="" %}
+!["Are we dealing with supervised or unsupervised
+learning?"](fig/serverrack-openclipartorg-psteinb-basedon-ericlemerdy.svg){alt="Flow Diagram for determining supvervised vs unsupervised"}.
 
 The methodology of providing the input data, communicating options and flags as well as retrieving
 the results is quite opposite to using a plain laptop. Moreover, using a GUI style interface is 
