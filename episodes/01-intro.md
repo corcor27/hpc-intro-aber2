@@ -1,95 +1,123 @@
 ---
-title: Data management plans
-teaching: 30
-exercises: 0
+title: Why Use a Cluster?
+teaching: 15
+exercises: 5
 ---
 
 ::::::::::::::::::::::::::::::::::::::: objectives
 
-- Understand Funder Requirements: Identify core expectations from major funding bodies regarding research data stewardship.
-- Apply the FAIR Principles: Operationalize Findability, Accessibility, Interoperability, and Reusability in daily workflows.
-- Draft a Section-by-Section DMP: Create a practical, living DMP for their current or upcoming research projects.
-- Budget & Risk Assess Data: Estimate costs associated with data storage, curation, anonymization, and long-term preservation.
+- Be able to describe what an HPC system is
+- Identify how an HPC system could benefit you.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Workshop Overview
-
-- Title: Designing Robust Data Management Plans (DMPs) for Research Success
-- Target Audience: Early Career Researchers (ECRs), PhD students, and Principal Investigators (PIs) across STEM and HSS disciplines.
-- Duration: 3 hours (Half-day interactive workshop)
-- Format: Hybrid / In-person hands-on workshop (Includes short lectures, individual exercises, group peer review, and tool demonstrations)
-- Key Tools Covered: DMPonline / DMPTool, institutional repositories, license selectors, and FAIR sharing registries.
-
-## Workshop Schedule
-
-!["Are we dealing with supervised or unsupervised
-learning?"](fig/schedule.png){alt="Flow Diagram for determining supvervised vs unsupervised"}.
-
-
-Detailed Session Breakdown
-Session 1: Foundation & The FAIR Principles (20 mins)
-
-- Data Lifecycles vs. Project Lifecycles: Moving beyond project end-dates to long-term stewardship.
-- FAIR Principles Breakdown:
-  - Findable: Persistent Identifiers (DOIs, ORCIDs), rich metadata.
-  - Accessible: Standard communications protocols, open vs. restricted access routes.
-  - Interoperable: Standard formats, controlled vocabularies, ontologies.
-  - Reusable: Clear licensing (e.g., Creative Commons, MIT), provenance documentation.
-
-Session 2: The Core Components of a DMP (55 mins)
-
-1. Data Collection & Types:
-  - Distinguishing between raw, processed, and final research outputs.
-  - File formats: Choosing non-proprietary formats for long-term sustainability (e.g., .csv over .xlsx, .flac or .wav over .mp3).
-  - Volume estimates and storage scaling.
-2. Documentation & Metadata:
-  - README file structures, codebook design, and data dictionaries.
-  - Discipline-specific metadata standards (e.g., Dublin Core, DDI, Schema.org).
-3. Ethics, Legal & Intellectual Property:
-  - Handling sensitive data: Consent forms for data sharing, anonymization vs. pseudonomization, GDPR/data protection alignment.
-  - Copyright, ownership (university vs. funder vs. researcher), and choosing open licenses.
-4. Storage, Backup & Security:
-  - The 3-2-1 Backup Strategy (3 copies, 2 different media, 1 offsite/cloud).
-  - Encryption protocols for sensitive data in transit and at rest.
-5. Selection, Preservation & Sharing:
-  - Deciding what data to keep vs. what to destroy.
-  - Choosing a repository (Generalist vs. Domain-Specific vs. Institutional).
-6. Responsibilities & Resources:
-  - Roles (who maintains the data during and after the project).
-  - Costing data management into grant applications (e.g., repository fees, transcription costs, curation effort).
-
-Session 3: Practical Drafting Exercise (45 mins)
-
-Activity Prompt: Participants log into DMPonline/DMPTool or open the provided Word template and complete three target sections:
-- Section A: Data Description & Formats.
-- Section B: Ethics, Access Rights, and Anonymization Plan.
-- Section C: Storage, Backup, and Long-Term Preservation Strategy.
-
-Exercise Facilitator Tip: Circulate around the room to address specific technical edge cases (e.g., high-performance computing storage limits, commercial restrictions, biological or human subject data constraints).
-
-Session 4: Peer Review Matrix & High-Risk Scenario Analysis (30 mins)
-
-Group Case Study Options (10 mins discussion):
-- Scenario A: Managing several terabytes of imaging/sensor outputs on high-performance compute clusters.
-- Scenario B: Sharing anonymized interview transcripts with sensitive clinical context.
 
 :::::::::::::::::::::::::::::::::::::::: questions
 
-- "What ML/AI tools are you already aware of in healthcare, and what is your immediate gut reaction to them optimism, skepticism, or anxiety?"
-- "Where do you think AI can make the biggest impact in your day-to-day workflow: reducing paperwork or assisting in patient diagnosis?"
-
+- Why would I be interested in High Performance Computing (HPC)?
+- What can I expect to learn from this course?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
+Frequently, research problems that use computing can outgrow the desktop or laptop computer where
+they started:
 
+* A statistics student wants to cross-validate their model. This involves running the model 1000
+  times -- but each run takes an hour. Running on their laptop will take over a month!
+
+* A genomics researcher has been using small datasets of sequence data, but soon will be receiving
+  a new type of sequencing data that is 10 times as large. It's already challenging to open the
+  datasets on their computer -- analysing these larger datasets will probably crash it.
+
+* An engineer is using a fluid dynamics package that has an option to run in parallel. So far, they
+  haven't used this option on their desktop, but in going from 2D to 3D simulations, simulation 
+  time has more than tripled and it might be useful to take advantage of that feature.
+
+In all these cases, what is needed is access to more computers than can be used at the same time.
+
+> # And what do you do?
+> 
+> Talk to your neighbour, office mate or [rubber duck](https://rubberduckdebugging.com/) about your
+> research. How does computing help you do your research? 
+> How could more computing help you do more or better research?
+{: .challenge }
+
+
+# Doing Analysis or Running Code
+
+## A standard Laptop for standard tasks
+
+Today, people coding or analysing data typically work with laptops.
+ 
+{% include figure.html url="" max-width="20%" file="fig/200px-laptop-openclipartorg-aoguerrero.svg"
+ alt="A standard laptop" caption="" %}
+
+Let's dissect what resources programs running on a laptop require:
+- the keyboard and/or touchpad is used to tell the computer what to do (**Input**)
+- the internal computing resources **Central Processing Unit** and **Memory** perform calculation
+- the display depicts progress and results (**Output**)
+
+Schematically, this can be reduced to the following:
+
+{% include figure.html max-width="30%" file="fig/Simple_Von_Neumann_Architecture.svg" 
+alt="Schematic of how a computer works" caption="" %}
+
+
+## When tasks take too long
+
+When the task to solve become heavy on computations, the operations are typically out-sourced 
+from the local laptop or desktop to elsewhere. Take for example the task to find the directions for
+your next business trip. The capabilities of your laptop are typically not enough to calculate 
+that route spontaneously. So you use website, which in turn runs on a server that is almost 
+exclusively not in the same room as you are.
+
+{% include figure.html url="" max-width="20%" file="/fig/servers-openclipartorg-ericlemerdy.svg" 
+alt="A rack half full with servers" caption="" %}
+
+Note here, that a server is mostly a noisy computer mounted into a rack cabinet which in turn 
+resides in a data center. The internet made it possible that these data centers do not require to 
+be nearby your laptop. What people call **the cloud** is mostly a web-service where you can rent 
+such servers by providing your credit card details and by clicking together the specs of this 
+remote resource.
+
+The server itself has no direct display or input methods attached to it. But most importantly, it 
+has much more storage, memory and compute capacity than your laptop will ever have. In any case,
+you need a local device (laptop, workstation, mobile phone or tablet) to interact with this remote 
+machine, people typically call 'a server'. 
+
+## When one server is not enough
+
+If the computational task or analysis to complete is daunting for a single server, larger 
+agglomerations of servers are used. These go by the name of clusters or super computers.
+
+{% include figure.html url="" max-width="20%" 
+file="fig/serverrack-openclipartorg-psteinb-basedon-ericlemerdy.svg" alt="A rack with servers"
+caption="" %}
+
+The methodology of providing the input data, communicating options and flags as well as retrieving
+the results is quite opposite to using a plain laptop. Moreover, using a GUI style interface is 
+often discarded in favor of using the command line. This imposes a double paradigm shift for 
+prospect users:
+
+1. they work with the command line (not a GUI style user interface)
+2. they work with a distributed set of computers (called nodes)
+
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+> # I've never used a server, have I?
+> 
+> Take a minute and think about which of your daily interactions with a computer may require a 
+> remote server or even cluster to provide you with results. 
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 :::::::::::::::::::::::::::::::::::::::: keypoints
 
-- AI in healthcare isn't a futuristic concept; it is already operating in triaging, billing, and radiology.
-- The explosion of healthcare AI is driven by three factors: massive computing power, digitized health records (EHRs), and an explosion of genomic data.
-- Effective healthcare AI requires collaboration data scientists understand the math, but clinicians understand the patient.
+- High Performance Computing (HPC) typically involves connecting to very large computing systems
+  elsewhere in the world.
+- These other systems can be used to do work that would either be impossible or much slower or
+  smaller systems.
+- The standard method of interacting with such systems is via a command line interface called
+  Bash.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
