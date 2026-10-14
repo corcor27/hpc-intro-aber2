@@ -60,10 +60,7 @@ contact: 'team@carpentries.org'
 # Order of episodes in your lesson
 episodes: 
 - 01-intro.md
-- 02-variables_and_basic_data_types.md
-- 03-lists_and_dictionaries.md
-- 04-libraries_and_imports.md
-- 05-exercise.md
+
 
 # Information for Learners
 learners: 
