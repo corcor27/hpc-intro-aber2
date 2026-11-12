@@ -1,84 +1,148 @@
---
-title: Practical Drafting Session
-teaching: 45
-exercises: 15
+---
+title: "Filesystems and Storage"
+teaching: 15
+exercises: 10
 ---
 
-::::::::::::::::::::::::::::::::::::::: objectives
+:::::::::::::::::::::::::::::::::::::: questions 
 
-- Draft Core DMP Sections: Write concrete, funder-compliant responses for Data Collection, Ethics/Storage, and Long-Term Sharing.
-- Formulate Format Conversion Rules: Identify proprietary file formats used in their current pipeline and define clear export pathways to open standards.
-- Construct a Standardised README.txt: Build a project root folder documentation asset following metadata standards.
+- Where can I store my data?
 
+- What is the difference between scratch and home filestore?
 
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
-
-- Format Conversion Overhead: "How much automated scripting (e.g., Python, R, Bash) can you write into your analysis pipeline to automatically convert working files to open standards upon completion?"
-- Cloud vs. On-Premises Backups: "Does your current backup setup fulfill all three components of the 3-2-1 strategy, or are you relying entirely on a single synchronized cloud folder?"
-- Documentation Debt: "How long would it take to draft a complete README.txt for your current active project if you started right now?"
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+- How to use filesystems in job scripts?
 
 
-## Hands-On Drafting Exercises
+::::::::::::::::::::::::::::::::::::::::::::::::
 
-Participants will open their preferred tool (DMPonline, DMPTool, or a local Word/Markdown template) and complete three focused drafting blocks.
+:::::::::::::::::::::::::::::::::::::: objectives
 
-
-### Exercise 1: Data Types, Formats & Volume (15 mins)
-
-Prompt: Define the operational outputs of your current or upcoming project using the structured breakdown below.
-
-!["Are we dealing with supervised or unsupervised
-learning?"](fig/pillar_22.1.png){alt="Flow Diagram for determining supvervised vs unsupervised"}.
-
-### Exercise 2: Ethics, Security & Backup (15 mins)
-
-Prompt: Document your data protection measures, consent boundaries, and backup pipeline using the 3-2-1 strategy framework.
-
-!["Are we dealing with supervised or unsupervised
-learning?"](fig/pillar_22.1.png){alt="Flow Diagram for determining supvervised vs unsupervised"}.
-
-### Exercise 3: Documentation Asset – Root README.txt (15 mins)
-
-Prompt: Create a standardized, bare-bones README.txt template to accompany your dataset upon repository deposit.
-
-========================================================================
-DATASET README FILE
-========================================================================
-
-1. GENERAL INFORMATION
-   - Title of Dataset: [ Insert Project Title ]
-   - Principal Investigator / Author: [ Name, ORCID iD, Email ]
-   - Date of Data Collection: [ YYYY-MM-DD to YYYY-MM-DD ]
-   - Geographic Location / Context: [ Institution / Field Location ]
-   - Funding Source / Grant Number: [ Funder Name, Grant ID ]
-
-2. FILE & DIRECTORY STRUCTURE
-   - /raw_data/          : Unprocessed files direct from acquisition equipment.
-   - /processed_data/    : Anonymized, cleaned, and feature-engineered outputs (.csv).
-   - /scripts/           : Code pipelines for processing and statistical evaluation.
-   - /docs/              : Data dictionary, codebook, and metadata definitions.
-
-3. DATA DICTIONARY & VARIABLES
-   - Column A: sample_id   [ Unique participant identifier; string ]
-   - Column B: scan_date   [ Date of scan acquisition; ISO 8601 YYYY-MM-DD ]
-   - Column C: volume_mm3  [ Calculated lesion volume; numeric, float ]
-   - Missing Values Code  : NA or -9999
-
-4. LICENSING & ACCESS
-   - Usage License       : Creative Commons Attribution 4.0 International (CC-BY 4.0)
-   - Persistent Identifier: DOI: 10.xxxx/zenodo.xxxxxxx
-========================================================================
+- Understand the difference between home and scratch directories.
 
 
-:::::::::::::::::::::::::::::::::::::::: keypoints
+::::::::::::::::::::::::::::::::::::::::::::::::
 
-- Draft as You Work: Never wait until the final month of a grant to write your DMP documentation assets.
-- Automate Format Exports: Integrate export rules (.csv, .pdf, .tif) directly into your computing pipelines.
-- Lock Down Identifiers: Pseudonymize early and verify that linkage keys are stored separately from raw analytical files.
-- Standardize Metadata From Day 1: Using ISO standards (e.g., ISO 8601 for dates: YYYY-MM-DD) and clear missing value indicators (NA) prevents downstream analysis bugs.
-::::::::::::::::::::::::::::::::::::::::::::::::::
+## What is a filesystem?
+
+Storage on most compute systems is not what and where you think they are! Physical disks are bundled together into a virtual volume; this virtual volume may represent one filesystem, or may be divided up, or partitioned, into multiple filesystems. And your directories then reside within one of these filesystems. Filesystems are accessed over the network through mount points.
+
+There are multiple storage/filesystems options available for you to do your work. The most common are:
+
+- **home**: where you land when you first login. 100 GB per user. Slower access, backed up. Used to store your work long term.
+
+- **scratch**: temporary working space. Lustre filesystem with usually faster access, not backed up. Larger quota, but old files might get deleted. DON'T STORE RESULTS HERE!
+
+Here's a synopsis of filesystems on the cluster at Aberystwyth:
+
+| Name | Path | Default Quota | Disk Size | Backed Up | Filesystem |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Home | `/hpc/user.name` | 100GB | 40TB | Yes | NFS |
+| Scratch | `/scratch/user.name` | N/A | 100TB | No | NFS |
+
+**Important!! Ensure that you don't store anything longer than necessary on scratch, this can negatively affect other people’s jobs on the system.**
+
+## Accessing your filestore
+
+```bash
+$ df -h /scratch
+```
+
+## How much scratch have I used?
+
+The df command tells you how much disk space is left. The -h argument makes the output easier to read, it gives human readable units like M, G and T for Megabyte, Gigabyte and Terabyte instead of just giving output in bytes. By default df will give us the free space on all the drives on a system, but we can just ask for the scratch drive by adding /scratch as an argument after the -h.
+
+
+```bash
+$ df -h /scratch
+```
+
+```output
+Filesystem                      Size  Used Avail Use% Mounted on
+172.28.4.1:/mnt/zpool1/scratch  100T  189G  100T   1% /scratch
+```
+Filesystems in job scripts   With home and scratch filesystems (along with standard local /tmp filesystem) the most appropriate filesystem should be used in the job script.   When running jobs all files should normally be copied to /scratch before running the application. This makes sure all files are read on the high performance Lustre filesystem that /scratch uses. For example, if my_job directory in $HOME contains all files for the job, copy to /scratch and then run application.
+
+```bash
+WDPATH=/scratch/$USER/$SLURM_JOB_ID
+rm -fr $WDPATH
+mkdir -p $WDPATH
+cp -r $HOME/my_job$WDPATH
+
+cd $WDPATH
+my_application.exe
+echo "INFO: Finished job in $WDPATH"
+```
+
+## Mounting Storage
+
+The HPC cluster uses its own dedicated storage system. You can easily mount the Windows HPC storage to your local device.
+
+- ABER IS-supported devices: The mount should be available automatically.
+- Other devices: You will need to connect via the Aberystwyth University VPN.
+
+Connection details:
+
+- Address: //hpcstore1.aber.ac.uk/
+- Domain/Workgroup: pau
+- Username: YOURUSERNAME
+
+:::::::::::::::::::::::::::::::::::::: callout
+
+### Windows & macOS
+
+Please refer to the Aberystwyth FAQ for instructions on mounting network drives:
+
+Mounting storage drives (Aber FAQ)
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::: callout
+
+Linux 
+- Ubuntu (via Files app): 
+Go to Files → Other Locations, then enter the details above at the bottom of the window.
+- Other distributions (via smbclient):
+
+```bash
+smbclient //hpcstore1.aber.ac.uk/ -W pau -U YOURUSERNAME
+```
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Exercises
+
+:::::::::::::::::::::::::::::::::::::: challenge
+Using the df command
+
+    Login to a login node.
+
+    Run the command df -h.
+
+    How much space does /scratch have left?
+
+    If you had to run a large job requiring 10TB of scratch space, would there be enough space for it?
+
+:::::::::::::::: solution
+
+    Connect to the cluster login node via SSH.
+
+    Execute df -h and locate the line ending with /scratch (or run df -h /scratch).
+
+    Look at the Avail column (for example, 100T available in the sample output above).
+
+    Compare the Avail value against 10T—as long as available space exceeds 10TB, there is enough room to stage your job.
+
+:::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::: keypoints
+
+    The home directory is the default place to store data.
+
+    The scratch directory is a larger space for temporary files.
+
+    On Hawk in Cardiff home is backed up but is also a slower disk.
+
+    Quotas on home are much smaller than scratch.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
