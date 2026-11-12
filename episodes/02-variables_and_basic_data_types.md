@@ -1,5 +1,5 @@
 ---
-title: Foundation & The FAIR Principles
+title: Working on a remote HPC system
 teaching: 75
 exercises: 0
 ---
