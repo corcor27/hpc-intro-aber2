@@ -293,6 +293,42 @@
 </div>
 <!--/div.accordion-flush-->
 
+<div class="accordion accordion-flush" id="accordionFlush7">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading7">
+        <a href="06-transfering.html">6. Transferring files</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush8">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading8">
+        <a href="07-resources.html">7. Using resources effectively</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush9">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading9">
+        <a href="08-responsibility.html">8. Using shared resources responsibly</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
                 </div>
               </div>
             </div>
@@ -2146,6 +2182,793 @@ Command: seq       common transformation of FASTA/Q
 </div>
 </div>
 </div>
+</section></section><section id="aio-06-transfering"><p>Content from <a href="06-transfering.html">Transferring files</a></p>
+<hr>
+<p>Last updated on 2026-11-13 |
+
+        <a href="https://github.com/corcor27/HCRW-workshop/edit/main/episodes/06-transfering.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul>
+<li>How do I upload/download files to the cluster?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul>
+<li>Be able to transfer files to and from a computing cluster.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Computing with a remote computer offers very limited use if we cannot
+get files to or from the cluster. There are several options for
+transferring data between computing resources, from command line options
+to GUI programs, which we will cover here.</p>
+<section><h2 class="section-heading" id="download-files-from-the-internet-using-wget">Download files from the internet using wget<a class="anchor" aria-label="anchor" href="#download-files-from-the-internet-using-wget"></a>
+</h2>
+<hr class="half-width">
+<p>One of the most straightforward ways to download files is to use
+<code>wget</code>. Any file that can be downloaded in your web browser
+with an accessible link can be downloaded using <code>wget</code>. This
+is a quick way to download datasets or source code.</p>
+<p>The syntax is: <code>wget https://some/link/to/a/file.tar.gz</code>.
+For example, download the lesson sample files using the following
+command:</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="ex">[user@login</span> ~]$ wget <span class="pp">[</span><span class="ss">https://example.org/files/bash</span><span class="pp">-</span><span class="ss">lesson.tar.gz</span><span class="pp">]</span><span class="er">(</span><span class="ex">https://example.org/files/bash-lesson.tar.gz</span><span class="kw">)</span></span></code></pre>
+</div>
+</section><section><h2 class="section-heading" id="transferring-single-files-and-folders-with-scp">Transferring single files and folders with scp<a class="anchor" aria-label="anchor" href="#transferring-single-files-and-folders-with-scp"></a>
+</h2>
+<hr class="half-width">
+<p>To copy a single file to or from the cluster, we can use scp. The
+syntax can be a little complexfor new users, but we’ll break it down
+here:</p>
+<p>To transfer to another computer:</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="ex">[user@local</span> ~]$ scp /path/to/local/file.txt yourUsername@remote.computer.address:/path/on/remote/computer</span></code></pre>
+</div>
+<p>To download from another computer:</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="ex">[user@local</span> ~]$ scp yourUsername@remote.computer.address:/path/on/remote/computer/file.txt /path/to/local/</span></code></pre>
+</div>
+<p>Note that we can simplify doing this by shortening our paths. On the
+remote computer, everything after the : is relative to our home
+directory. We can simply just add a : and leave it at that if we don’t
+care where the file goes.</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="ex">[user@local</span> ~]$ scp local-file.txt yourUsername@remote.computer.address:</span></code></pre>
+</div>
+<p>To recursively copy a directory, we just add the -r (recursive)
+flag:</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a><span class="ex">[user@local</span> ~]$ scp <span class="at">-r</span> some-local-folder/ yourUsername@remote.computer.address:target-directory/</span></code></pre>
+</div>
+</section><section><h2 class="section-heading" id="transferring-files-interactively-with-filezilla-sftp">Transferring files interactively with FileZilla (sftp)<a class="anchor" aria-label="anchor" href="#transferring-files-interactively-with-filezilla-sftp"></a>
+</h2>
+<hr class="half-width">
+<p>FileZilla is a cross-platform client for downloading and uploading
+files to and from a remote computer. It is absolutely fool-proof and
+always works quite well. It uses the sftp protocol.</p>
+<p>Download and install the FileZilla client from <a href="https://filezilla-project.org" class="external-link uri">https://filezilla-project.org</a>. After installing and
+opening the program, you should end up with a window with a file browser
+of your local system on the left hand side of the screen. When you
+connect to the cluster, your cluster files will appear on the right hand
+side.</p>
+<p>To connect to the cluster, we’ll just need to enter our credentials
+at the top of the screen:</p>
+<ul>
+<li>Host: <a href="sftp://bert.aber.ac.uk" class="uri">sftp://bert.aber.ac.uk</a>
+</li>
+<li>User: Your cluster username</li>
+<li>Password: Your cluster password</li>
+<li>Port: (leave blank to use the default port)</li>
+</ul>
+<p>Hit “Quickconnect” to connect! You should see your remote files
+appear on the right hand side of the screen. You can drag-and-drop files
+between the left (local) and right (remote) sides of the screen to
+transfer files.</p>
+<div class="section level3">
+<h3 id="copying-data-from-your-pc-to-supercomputing-wales">Copying data from your PC to Supercomputing Wales<a class="anchor" aria-label="anchor" href="#copying-data-from-your-pc-to-supercomputing-wales"></a>
+</h3>
+<p>You can copy files to/from your Supercomputing Wales home and scratch
+locations using the secure copy protocol (SCP) or secure file transfer
+protocol (SFTP) and connecting to Hawk.</p>
+<p>Open FileZilla and type <a href="sftp://bert.aber.ac.uk" class="uri">sftp://bert.aber.ac.uk</a> into the host box. Enter your
+username and password in the username/password boxes.</p>
+<p>First time you will need to select how to manage passwords. This is a
+personal preference but safest approach would be to select “Do not save
+passwords”.</p>
+<p>Click Quickconnect and a connection will be started. The first time
+you connect you will be asked to verify the host key, tick the “Always
+trust this host, add key to the cache” box to stop this message
+appearing again in future.</p>
+<p>You should now have some files in the right hand side of the window.
+These are on the remote system, the list on the left hand side is your
+local system.</p>
+<p>Files can be transferred either by dragging and dropping them from
+one side to the other. Or you can right click on a remote file and
+choose “Download” or a local file and choose “Upload”.</p>
+<p>You can change directory on the remote host by typing a path into the
+“Remote site:” box. For example type in /scratch/user.name (where
+user.name is your username) to access your scratch directory.</p>
+<p>Other applications are available such as WinSCP.</p>
+</div>
+<div class="section level3">
+<h3 id="archiving-files">Archiving files<a class="anchor" aria-label="anchor" href="#archiving-files"></a>
+</h3>
+<p>One of the biggest challenges we often face when transferring data
+between remote HPC systems is that of large numbers of files. There is
+an overhead to transferring each individual file and when we are
+transferring large numbers of files these overheads combine to slow down
+our transfers to a large degree.</p>
+<p>The solution to this problem is to archive multiple files into
+smaller numbers of larger files before we transfer the data to improve
+our transfer efficiency. Sometimes we will combine archiving with
+compression to reduce the amount of data we have to transfer and so
+speed up the transfer.</p>
+<p>The most common archiving command you will use on (Linux) HPC cluster
+is tar. tar can be used to combine files into a single archive file and,
+optionally, compress. For example, to collect all files contained inside
+output_data into an archive file called output_data.tar we would
+use:</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="ex">[user@local</span> ~]$ tar <span class="at">-cvf</span> output_data.tar output_data/</span></code></pre>
+</div>
+<p>The options we used for tar are:</p>
+<ul>
+<li>-c - Create new archive</li>
+<li>-v - Verbose (print what you are doing!)</li>
+<li>-f output_data.tar - Create the archive in file output_data.tar</li>
+</ul>
+<p>The tar command allows users to concatenate flags. Instead of typing
+tar -c -v -f, we can use tar -cvf. We can also use the tar command to
+extract the files from the archive once we have transferred it:</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a><span class="ex">[user@local</span> ~]$ tar <span class="at">-xvf</span> output_data.tar</span></code></pre>
+</div>
+<p>This will put the data into a directory called output_data. Be
+careful, it will overwrite data there if this directory already
+exists!</p>
+<p>Sometimes you may also want to compress the archive to save space and
+speed up the transfer. However, you should be aware that for large
+amounts of data compressing and un-compressing can take longer than
+transferring the un-compressed data so you may not want to transfer. To
+create a compressed archive using tar we add the -z option and add the
+.gz extension to the file to indicate it is compressed, e.g.:</p>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a><span class="ex">[user@local</span> ~]$ tar <span class="at">-czvf</span> output_data.tar.gz output_data/</span></code></pre>
+</div>
+<p>The tar command is used to extract the files from the archive in
+exactly the same way as for uncompressed data as tar recognises it is
+compressed and uncompresses and extracts at the same time:</p>
+<div class="codewrapper sourceCode" id="cb9">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1" aria-label="code-block-9-1"></a><span class="ex">[user@local</span> ~]$ tar <span class="at">-xvf</span> output_data.tar.gz</span></code></pre>
+</div>
+<div id="challenge1" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge</h3>
+<div class="callout-content">
+<p>Transferring files</p>
+<ul>
+<li>Login to a login node.</li>
+<li>Create a file called hello.txt by using the nano text editor (or the
+editor of your choice) and typing nano hello.txt. Enter some text into
+the file and press Ctrl+X to save it.</li>
+<li>Use either FileZilla or SCP/SFTP to copy the file to your
+computer.</li>
+<li>Create a file on your computer using a text editor. Copy that file
+to your Supercomputing Wales home directory using FileZilla or SCP/SFTP
+and examine its contents with nano on the login node.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div class="accordion-body">
+<p>Using scp from a terminal on your local machine:</p>
+<div class="codewrapper sourceCode" id="cb10">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1" aria-label="code-block-10-1"></a><span class="co"># Download hello.txt from the cluster to your current local directory</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1" aria-label="code-block-10-2"></a><span class="fu">scp</span> yourUsername@bert.aber.ac.uk:hello.txt .</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1" aria-label="code-block-10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1" aria-label="code-block-10-4"></a><span class="co"># Upload a local file back to your cluster home directory</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1" aria-label="code-block-10-5"></a><span class="fu">scp</span> local_file.txt yourUsername@bert.aber.ac.uk:</span></code></pre>
+</div>
+<p>Alternatively, connect to <a href="sftp://bert.aber.ac.uk" class="uri">sftp://bert.aber.ac.uk</a> in FileZilla and drag and drop
+the files between the local (left) and remote (right) panes.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="working-with-windows" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="working-with-windows" class="callout-inner">
+<h3 class="callout-title">Working with Windows</h3>
+<div class="callout-content">
+<p>When you transfer files to/from a Windows system to a Unix system
+(Mac, Linux, BSD, Solaris, etc.) this can cause problems. Windows
+encodes its files slightly differently than Unix, and adds an extra
+character to every line.</p>
+<p>On a Unix system, every line in a file ends with a (newline). On
+Windows, every line in a file ends with a (carriage return + newline).
+This causes problems sometimes.</p>
+<p>Though most modern programming languages and software handle this
+correctly, in some rare instances, you may run into an issue. The
+solution is to convert a file from Windows to Unix encoding with the
+dos2unix command.</p>
+<p>You can identify if a file has Windows line endings with cat -A
+filename. A file with Windows line endings will have ^M$ at the end of
+every line. A file with Unix line endings will have $ at the end of a
+line.</p>
+<p>To convert the file, just run dos2unix filename. (Conversely, to
+convert back to Windows format, you can run unix2dos filename.)</p>
+</div>
+</div>
+</div>
+<div id="a-note-on-ports" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="a-note-on-ports" class="callout-inner">
+<h3 class="callout-title">A note on ports</h3>
+<div class="callout-content">
+<p>All file transfers using the above methods use encrypted
+communication over port 22. This is the same connection method used by
+SSH. In fact, all file transfers using these methods occur through an
+SSH connection. If you can connect via SSH over the normal port, you
+will be able to transfer files.</p>
+</div>
+</div>
+</div>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<span class="callout-header">Key Points</span>
+<div class="callout-inner">
+<div class="callout-content">
+<ul>
+<li>wget downloads a file from the internet.</li>
+<li>scp transfers files to and from your computer.</li>
+<li>You can use an SFTP client like FileZilla to transfer files through
+a GUI.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section></section><section id="aio-07-resources"><p>Content from <a href="07-resources.html">Using resources effectively</a></p>
+<hr>
+<p>Last updated on 2026-11-13 |
+
+        <a href="https://github.com/corcor27/HCRW-workshop/edit/main/episodes/07-resources.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul>
+<li><p>How do we monitor our jobs?</p></li>
+<li><p>How can I get my jobs scheduled more easily?</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul>
+<li><p>Understand how to look up job statistics and profile
+code.</p></li>
+<li><p>Understand job size implications.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>We now know virtually everything we need to know about getting stuff
+on a cluster. We can log on, submit different types of jobs, use
+preinstalled software, and install and use software of our own. What we
+need to do now is use the systems effectively.</p>
+<section><h2 class="section-heading" id="measuring-the-statistics-of-currently-running-tasks">Measuring the statistics of currently running tasks<a class="anchor" aria-label="anchor" href="#measuring-the-statistics-of-currently-running-tasks"></a>
+</h2>
+<hr class="half-width">
+<div id="connecting-to-nodes" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="connecting-to-nodes" class="callout-inner">
+<h3 class="callout-title">Connecting to Nodes</h3>
+<div class="callout-content">
+<p>Typically, clusters allow users to connect directly to compute nodes
+from the login node. This is useful to check on a running job and see
+how it’s doing, but is not a recommended practice in general, because it
+bypasses the resource manager. If you need to do this, check where a job
+is running with <code>squeue</code>, then run <code>ssh nodename</code>.
+(Note, this may not work on all clusters.)</p>
+</div>
+</div>
+</div>
+<p>We can also check on stuff running on the login node right now the
+same way (so it’s not necessary to <code>ssh</code> to a node for this
+example).</p>
+<div class="section level3">
+<h3 id="top">top<a class="anchor" aria-label="anchor" href="#top"></a>
+</h3>
+<p>The best way to check current system stats is with <code>top</code>
+(<code>htop</code> is a prettier version of <code>top</code> but may not
+be available on your system).</p>
+<p>Some sample output might look like the following
+(<code>Ctrl + c</code> to exit):</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="ex">[user@login</span> ~]$ top</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>top - 10:15:32 up 45 days,  2:14,  3 users,  load average: 0.12, 0.08, 0.05
+Tasks: 184 total,   1 running, 183 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  1.2 us,  0.4 sy,  0.0 ni, 98.4 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+MiB Mem : 128654.2 total,  94312.5 free,  14210.8 used,  20130.9 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used. 113420.1 avail Mem
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+ 789412 user      20   0   58920   4120   3412 R   0.7   0.0   0:00.03 top
+ 789235 user      20   0   26592   4276   3510 S   0.0   0.0   0:00.05 bash</code></pre>
+</div>
+<p>Overview of the most important fields: - PID - What is the numerical
+id of each process? - USER - Who started the process? - RES - What is
+the amount of memory currently being used by a process (in bytes)? -
+%CPU - How much of a CPU is each process using? Values higher than 100
+percent indicate that aprocess is running in parallel. - %MEM - What
+percent of system memory is a process using? - TIME+ - How much CPU time
+has a process used so far? Processes using 2 CPUs accumulate time
+attwice the normal rate. - COMMAND - What command was used to launch a
+process?</p>
+</div>
+<div class="section level3">
+<h3 id="free">free<a class="anchor" aria-label="anchor" href="#free"></a>
+</h3>
+<p>Another useful tool is the free -h command. This will show the
+currently used/free amount of memory.</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="ex">[user@login</span> ~]$ free <span class="at">-h</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>total        used        free      shared  buff/cache   available
+Mem:           125Gi        13Gi        92Gi        12Mi        19Gi       110Gi
+Swap:             0B          0B          0B</code></pre>
+</div>
+<p>The key fields here are total, used, and available - which represent
+the amount of memory that the machine has in total, how much is
+currently being used, and how much is still available. When a computer
+runs out of memory it will attempt to use “swap” space on your hard
+drive instead. Swap space is very slow to access - a computer may appear
+to “freeze” if it runs out of memory and begins using swap. However,
+compute nodes on HPC systems usually have swap space disabled so when
+they run out of memory you usually get an “Out Of Memory (OOM)” error
+instead.</p>
+</div>
+<div class="section level3">
+<h3 id="ps">ps<a class="anchor" aria-label="anchor" href="#ps"></a>
+</h3>
+<p>To show all processes from your current session, type ps.</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a><span class="ex">[user@login</span> ~]$ ps</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>PID TTY          TIME CMD
+ 789235 pts/1    00:00:00 bash
+ 789399 pts/1    00:00:00 ps</code></pre>
+</div>
+<p>Note that this will only show processes from our current session. To
+show all processes you own (regardless of whether they are part of your
+current session or not), you can use ps ux.</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a><span class="ex">[user@login</span> ~]$ ps ux</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+cot13     789225  0.0  0.0  89684  9684 ?        Ss   10:03   0:00 /usr/lib/systemd/systemd --user
+cot13     789227  0.0  0.0 331448  5760 ?        S    10:03   0:00 (sd-pam)
+cot13     789234  0.0  0.0 161724  5740 ?        S    10:03   0:00 sshd: cot13@pts/1
+cot13     789235  0.0  0.0  26592  4276 pts/1    Ss   10:03   0:00 -bash
+cot13     789404  0.0  0.0  58848  3940 pts/1    R+   10:11   0:00 ps ux</code></pre>
+</div>
+<p>This is useful for identifying which processes are doing what.</p>
+</div>
+</section><section><h2 class="section-heading" id="killing-processes">Killing processes<a class="anchor" aria-label="anchor" href="#killing-processes"></a>
+</h2>
+<hr class="half-width">
+<p>To kill all of a certain type of process, you can run killall
+commandName. killall rsession</p>
+<p>would kill all rsession processes created by RStudio, for instance.
+Note that you can only killyour own processes.</p>
+<p>You can also kill processes by their PIDs using kill 1234 where 1234
+is a PID. Sometimeshowever, killing a process does not work instantly.
+To kill the process in the most hardcore mannerpossible, use the -9
+flag. It’s recommended to kill using without -9 first. This gives
+aprocess the chance to clean up child processes, and exit cleanly.
+However, if a process just isn’tresponding, use -9 to kill it
+instantly.</p>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<span class="callout-header">Key Points</span>
+<div class="callout-inner">
+<div class="callout-content">
+<ul>
+<li>The smaller your job, the faster it will schedule.</li>
+</ul>
+</div>
+</div>
+</div>
+</section></section><section id="aio-08-responsibility"><p>Content from <a href="08-responsibility.html">Using shared resources responsibly</a></p>
+<hr>
+<p>Last updated on 2026-11-13 |
+
+        <a href="https://github.com/corcor27/HCRW-workshop/edit/main/episodes/08-responsibility.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul>
+<li><p>How can I be a responsible user?</p></li>
+<li><p>How can I protect my data?</p></li>
+<li><p>How can I best get large amounts of data off an HPC
+system?</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul>
+<li><p>Learn how to be a considerate shared system citizen.</p></li>
+<li><p>Understand how to protect your critical data.</p></li>
+<li><p>Appreciate the challenges with transferring large amounts of data
+off HPC systems.</p></li>
+<li><p>Understand how to convert many files to a single archive file
+using tar.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>One of the major differences between using remote HPC resources and
+your own system (e.g. your laptop) is that they are a shared resource.
+How many users the resource is shared between at any one time varies
+from system to system but it is unlikely you will ever be the only user
+logged into or using such a system.</p>
+<p>We have already mentioned one of the consequences of this shared
+nature of the resources: the scheduling system where you submit your
+jobs, but there are other things you need to consider in order to be a
+considerate HPC citizen, to protect your critical data and to transfer
+data.</p>
+<section><h2 class="section-heading" id="be-kind-to-the-login-nodes">Be kind to the login nodes<a class="anchor" aria-label="anchor" href="#be-kind-to-the-login-nodes"></a>
+</h2>
+<hr class="half-width">
+<p>The login node is often very busy managing lots of users logged in,
+creating and editing files and compiling software! It doesn’t have any
+extra space to run computational work.</p>
+<p>Don’t run jobs on the login node (though quick tests are generally
+fine). A “quick test” is generally anything that uses less than 5
+minutes of time. If you use too much resource then other users on the
+login node will start to be affected - their login sessions will start
+to run slowly and may even freeze or hang.</p>
+<div id="login-nodes-are-a-shared-resource" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="login-nodes-are-a-shared-resource" class="callout-inner">
+<h3 class="callout-title">Login nodes are a shared resource</h3>
+<div class="callout-content">
+<p>Remember, the login node is shared with all other users and your
+actions could cause issues for other people. Think carefully about the
+potential implications of issuing commands that may use large amounts of
+resource.</p>
+</div>
+</div>
+</div>
+<p>You can always use the commands <code>top</code> and
+<code>ps ux</code> to list the processes you are running on a login node
+and the amount of CPU and memory they are using. The <code>kill</code>
+command can be used along with the <em>PID</em> to terminate any
+processes that are using large amounts of resource.</p>
+<div id="login-node-etiquette" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="login-node-etiquette" class="callout-inner">
+<h3 class="callout-title">Login Node Etiquette</h3>
+<div class="callout-content">
+<p>Which of these commands would probably be okay to run on the login
+node?</p>
+<ul>
+<li><code>python physics_sim.py</code></li>
+<li><code>make</code></li>
+<li><code>create_directories.sh</code></li>
+<li><code>molecular_dynamics_2</code></li>
+<li><code>tar -xzf R-3.3.0.tar.gz</code></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div class="accordion-body">
+<ul>
+<li>
+<strong><code>make</code></strong>,
+<strong><code>create_directories.sh</code></strong>, and
+<strong><code>tar -xzf R-3.3.0.tar.gz</code></strong> are generally fine
+to run on a login node, as compiling small software packages, managing
+directory structures, and unpacking source archives are lightweight
+interactive administrative tasks.</li>
+<li>
+<strong><code>python physics_sim.py</code></strong> and
+<strong><code>molecular_dynamics_2</code></strong> are computational
+workloads that should be submitted through the batch scheduler
+(<code>sbatch</code>) rather than run directly on the login node (unless
+doing a very brief 1–2 minute sanity check).</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<p>If you experience performance issues with a login node you should
+report it to the system staff (usually via the helpdesk) for them to
+investigate. You can use the <code>top</code> command to see which users
+are using which resources.</p>
+</section><section><h2 class="section-heading" id="test-before-scaling">Test before scaling<a class="anchor" aria-label="anchor" href="#test-before-scaling"></a>
+</h2>
+<hr class="half-width">
+<p>Remember that you are generally charged for usage on shared systems.
+A simple mistake in a job script can end up costing a large amount of
+resource budget. Imagine a job script with a mistake that makes it sit
+doing nothing for 24 hours on 1000 cores or one where you have requested
+2000 cores by mistake and only use 100 of them! This problem can be
+compounded when people write scripts that automate job submission (for
+example, when running the same calculation or analysis over lots of
+different input). When this happens it hurts both you (as you waste lots
+of charged resource) and other users (who are blocked from accessing the
+idle compute nodes).</p>
+<p>On very busy resources you may wait many days in a queue for your job
+to fail within 10 seconds of starting due to a trivial typo in the job
+script. This is extremely frustrating! Most systems provide dedicated
+resources for testing that have short wait times to help you avoid this
+issue.</p>
+<div id="test-job-submission-scripts-that-use-large-amounts-of-resource" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="test-job-submission-scripts-that-use-large-amounts-of-resource" class="callout-inner">
+<h3 class="callout-title">Test job submission scripts that use large
+amounts of resource</h3>
+<div class="callout-content">
+<p>Before submitting a large run of jobs, submit one as a test first to
+make sure everything works as expected.</p>
+<p>Before submitting a very large or very long job submit a short
+truncated test to ensure that the job starts as expected.</p>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="have-a-backup-plan">Have a backup plan<a class="anchor" aria-label="anchor" href="#have-a-backup-plan"></a>
+</h2>
+<hr class="half-width">
+<p>Although many HPC systems keep backups, it does not always cover all
+the file systems available and may only be for disaster recovery
+purposes (<em>i.e.</em> for restoring the whole file system if lost
+rather than an individual file or directory you have deleted by
+mistake). Your data on the system is primarily your responsibility and
+you should ensure you have secure copies of data that are critical to
+your work.</p>
+<p>Version control systems (such as Git) often have free, cloud-based
+offerings (e.g. GitHub, GitLab) that are generally used for storing
+source code. Even if you are not writing your own programs, these can be
+very useful for storing job scripts, analysis scripts and small input
+files.</p>
+<p>For larger amounts of data, you should make sure you have a robust
+system in place for taking copies of critical data off the HPC system
+wherever possible to backed-up storage. Tools such as <code>rsync</code>
+can be very useful for this.</p>
+<p>Your access to the shared HPC system will generally be time-limited
+so you should ensure you have a plan for transferring your data off the
+system before your access finishes. The time required to transfer large
+amounts of data should not be underestimated and you should ensure you
+have planned for this early enough (ideally, before you even start using
+the system for your research).</p>
+<p>In all these cases, the helpdesk of the system you are using should
+be able to provide useful guidance on your options for data transfer for
+the volumes of data you will be using.</p>
+<div id="your-data-is-your-responsibility" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="your-data-is-your-responsibility" class="callout-inner">
+<h3 class="callout-title">Your data is your responsibility</h3>
+<div class="callout-content">
+<p>Make sure you understand what the backup policy is on the file
+systems on the system you are using and what implications this has for
+your work if you lose your data on the system. Plan your backups of
+critical data and how you will transfer data off the system throughout
+the project.</p>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="transferring-data">Transferring data<a class="anchor" aria-label="anchor" href="#transferring-data"></a>
+</h2>
+<hr class="half-width">
+<p>As mentioned above, many users run into the challenge of transferring
+large amounts of data off HPC systems at some point (this is more often
+in transferring data off than onto systems but the advice below applies
+in either case). Data transfer speed may be limited by many different
+factors so the best data transfer mechanism to use depends on the type
+of data being transferred and where the data is going. Some of the key
+issues to be aware of are:</p>
+<ul>
+<li><p><strong>Disk speed</strong> - File systems on HPC systems are
+often highly parallel, consisting of a very large number of high
+performance disk drives. This allows them to support a very high data
+bandwidth. Unless the remote system has a similar parallel file system
+you may find your transfer speed limited by disk performance at that
+end.</p></li>
+<li><p><strong>Meta-data performance</strong> - <em>Meta-data
+operations</em> such as opening and closing files or listing the owner
+or size of a file are much less parallel than read/write operations. If
+your data consists of a very large number of small files you may find
+your transfer speed is limited by meta-data operations. Meta-data
+operations performed by other users of the system can also interact
+strongly with those you perform so reducing the number of such
+operations you use (by combining multiple files into a single file) may
+reduce variability in your transfer rates and increase transfer
+speeds.</p></li>
+<li><p><strong>Network speed</strong> - Data transfer performance can be
+limited by network speed. More importantly it is limited by the slowest
+section of the network between source and destination. If you are
+transferring to your laptop/workstation, this is likely to be its
+connection (either via LAN or Wi-Fi).</p></li>
+<li><p><strong>Firewall speed</strong> - Most modern networks are
+protected by some form of firewall that filters out malicious traffic.
+This filtering has some overhead and can result in a reduction in data
+transfer performance. The needs of a general purpose network that hosts
+email/web-servers and desktop machines are quite different from a
+research network that needs to support high volume data transfers. If
+you are trying to transfer data to or from a host on a general purpose
+network you may find the firewall for that network will limit the
+transfer rate you can achieve.</p></li>
+</ul>
+<p>As mentioned above, if you have related data that consists of a large
+number of small files it is strongly recommended to pack the files into
+a larger <em>archive</em> file for long term storage and transfer. A
+single large file makes more efficient use of the file system and is
+easier to move, copy and transfer because significantly fewer meta-data
+operations are required. Archive files can be created using tools like
+<code>tar</code> and <code>zip</code>. We have already met
+<code>tar</code> when we talked about data transfer earlier.</p>
+<div id="consider-the-best-way-to-transfer-data" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="consider-the-best-way-to-transfer-data" class="callout-inner">
+<h3 class="callout-title">Consider the best way to transfer data</h3>
+<div class="callout-content">
+<p>If you are transferring large amounts of data you will need to think
+about what may affect your transfer performance. It is always useful to
+run some tests that you can use to extrapolate how long it will take to
+transfer your data.</p>
+<p>If you have many files, it is best to combine them into an archive
+file before you transfer them using a tool such as <code>tar</code>.</p>
+</div>
+</div>
+</div>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<span class="callout-header">Key Points</span>
+<div class="callout-inner">
+<div class="callout-content">
+<ul>
+<li><p>Be careful how you use the login node.</p></li>
+<li><p>Your data on the system is your responsibility.</p></li>
+<li><p>Plan and test large data transfers.</p></li>
+<li><p>It is often best to convert many files to a single archive file
+before transferring.</p></li>
+<li><p>Again, don’t run stuff on the login node.</p></li>
+<li><p>Don’t be a bad person and run stuff on the login node.</p></li>
+</ul>
+</div>
+</div>
+</div>
 </section></section>
 </div>
     </main>
@@ -2196,8 +3019,8 @@ Command: seq       common transformation of FASTA/Q
   "url": "https://swcarpentry.github.io/python-novice-inflammation/aio.html",
   "identifier": "https://swcarpentry.github.io/python-novice-inflammation/aio.html",
   "dateCreated": "2014-11-25",
-  "dateModified": "2026-11-12",
-  "datePublished": "2026-11-12"
+  "dateModified": "2026-11-13",
+  "datePublished": "2026-11-13"
 }
 
   </script><script>
